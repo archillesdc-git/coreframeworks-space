@@ -1,0 +1,138 @@
+/* ArchillesDC Brand Colors */
+/* Use these CSS variables in your project */
+
+:root {
+    /* Primary Colors - Violet */
+    --archilles-violet-50: #f0f0ff;
+    --archilles-violet-100: #e0e0ff;
+    --archilles-violet-200: #c4b5fd;
+    --archilles-violet-300: #a78bfa;
+    --archilles-violet-400: #8b5cf6;
+    --archilles-violet-500: #7c3aed;
+    --archilles-violet-600: #6d28d9;
+    --archilles-violet-700: #5b21b6;
+
+    /* Background Colors */
+    --archilles-bg: #0a0a0f;
+    --archilles-surface: #12121a;
+    --archilles-surface-elevated: #1a1a24;
+    --archilles-border: #2a2a3a;
+    --archilles-border-light: #3a3a4a;
+
+    /* Text Colors */
+    --archilles-text-primary: #fafafa;
+    --archilles-text-secondary: #a1a1aa;
+    --archilles-text-muted: #71717a;
+
+    /* Accent Colors */
+    --archilles-cyan: #22d3ee;
+    --archilles-emerald: #10b981;
+    --archilles-amber: #f59e0b;
+    --archilles-rose: #f43f5e;
+
+    /* Gradients */
+    --archilles-gradient-primary: linear-gradient(135deg, #8B5CF6 0%, #6D28D9 100%);
+    --archilles-gradient-hero: linear-gradient(135deg, #A78BFA 0%, #22D3EE 100%);
+    --archilles-gradient-bg: linear-gradient(180deg, #0a0a0f 0%, #12121a 100%);
+
+    /* Shadows */
+    --archilles-glow: 0 0 30px rgba(139, 92, 246, 0.3);
+    --archilles-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+    --archilles-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --archilles-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+
+    /* Typography */
+    --archilles-font-sans: "Inter", system-ui, -apple-system, sans-serif;
+    --archilles-font-mono: "JetBrains Mono", "Fira Code", monospace;
+
+    /* Border Radius */
+    --archilles-radius-sm: 4px;
+    --archilles-radius-md: 8px;
+    --archilles-radius-lg: 12px;
+    --archilles-radius-xl: 16px;
+    --archilles-radius-full: 9999px;
+
+    /* Transitions */
+    --archilles-transition-fast: 0.15s ease;
+    --archilles-transition-normal: 0.3s ease;
+    --archilles-transition-slow: 0.5s ease;
+}
+
+/* Dark Mode (default) */
+[data-theme="dark"],
+.dark {
+    --bg: var(--archilles-bg);
+    --surface: var(--archilles-surface);
+    --text-primary: var(--archilles-text-primary);
+    --text-secondary: var(--archilles-text-secondary);
+    --border: var(--archilles-border);
+    --primary: var(--archilles-violet-400);
+    --primary-hover: var(--archilles-violet-500);
+}
+
+/* Light Mode */
+[data-theme="light"],
+.light {
+    --bg: #ffffff;
+    --surface: #f4f4f5;
+    --text-primary: #0a0a0f;
+    --text-secondary: #52525b;
+    --border: #e4e4e7;
+    --primary: var(--archilles-violet-500);
+    --primary-hover: var(--archilles-violet-600);
+}
+
+/* Utility Classes */
+.archilles-bg {
+    background: var(--archilles-bg);
+}
+
+.archilles-surface {
+    background: var(--archilles-surface);
+}
+
+.archilles-gradient {
+    background: var(--archilles-gradient-primary);
+}
+
+.archilles-glow {
+    box-shadow: var(--archilles-glow);
+}
+
+.archilles-text-gradient {
+    background: var(--archilles-gradient-hero);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* Logo Container */
+.archilles-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.archilles-logo-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: var(--archilles-radius-lg);
+    background: var(--archilles-gradient-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.archilles-logo-text {
+    font-family: var(--archilles-font-sans);
+    font-weight: 700;
+    font-size: 1.25rem;
+}
+
+.archilles-logo-text span:first-child {
+    color: var(--archilles-text-primary);
+}
+
+.archilles-logo-text span:last-child {
+    color: var(--archilles-violet-300);
+}

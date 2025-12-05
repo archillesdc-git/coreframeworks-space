@@ -1,0 +1,44 @@
+{
+    "name": "create-archillesdc-app",
+    "version": "1.0.0",
+    "description": "CLI to create a full-stack web application with Next.js, Tailwind, Prisma, and Auth",
+    "main": "dist/index.js",
+    "bin": {
+        "create-archillesdc-app": "./dist/index.js"
+    },
+    "type": "module",
+    "scripts": {
+        "build": "tsup src/index.ts --format esm --dts --clean",
+        "dev": "tsup src/index.ts --format esm --dts --watch",
+        "start": "node dist/index.js",
+        "typecheck": "tsc --noEmit"
+    },
+    "keywords": [
+        "cli",
+        "nextjs",
+        "tailwind",
+        "prisma",
+        "auth",
+        "boilerplate",
+        "starter",
+        "archillesdc"
+    ],
+    "author": "ArchillesDC",
+    "license": "MIT",
+    "dependencies": {
+        "chalk": "^5.3.0",
+        "commander": "^12.1.0",
+        "fs-extra": "^11.2.0",
+        "inquirer": "^9.2.23",
+        "ora": "^8.0.1",
+        "validate-npm-package-name": "^5.0.1"
+    },
+    "devDependencies": {
+        "@types/fs-extra": "^11.0.4",
+        "@types/inquirer": "^9.0.7",
+        "@types/node": "^20.14.10",
+        "@types/validate-npm-package-name": "^4.0.2",
+        "tsup": "^8.1.0",
+        "typescript": "^5.8.2"
+    }
+}

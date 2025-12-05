@@ -1,0 +1,85 @@
+import fs from "fs-extra";
+import path from "path";
+import type { ProjectOptions } from "../../create-project.js";
+
+export async function generatePackageJson(options: ProjectOptions): Promise<void> {
+    const { projectPath, projectName, database, authProvider, packageManager } = options;
+
+    const packageJson = {
+        name: projectName,
+        version: "0.1.0",
+        private: true,
+        type: "module",
+        scripts: {
+            build: "next build",
+            check: "next lint && tsc --noEmit",
+            "db:generate": "prisma migrate dev",
+            "db:migrate": "prisma migrate deploy",
+            "db:push": "prisma db push",
+            "db:studio": "prisma studio",
+            "db:seed": "tsx prisma/seed.ts",
+            dev: "next dev --turbo",
+            "format:check": 'prettier --check "**/*.{ts,tsx,js,jsx,mdx}" --cache',
+            "format:write": 'prettier --write "**/*.{ts,tsx,js,jsx,mdx}" --cache',
+            postinstall: "prisma generate",
+            lint: "next lint",
+            "lint:fix": "next lint --fix",
+            preview: "next build && next start",
+            start: "next start",
+            typecheck: "tsc --noEmit",
+        },
+        dependencies: {
+            "@auth/prisma-adapter": "^2.7.2",
+            "@prisma/client": "^6.6.0",
+            "@t3-oss/env-nextjs": "^0.12.0",
+            "@tanstack/react-query": "^5.69.0",
+            "@trpc/client": "^11.0.0",
+            "@trpc/react-query": "^11.0.0",
+            "@trpc/server": "^11.0.0",
+            clsx: "^2.1.1",
+            "lucide-react": "^0.460.0",
+            next: "^15.2.3",
+            "next-auth": "5.0.0-beta.25",
+            react: "^19.0.0",
+            "react-dom": "^19.0.0",
+            "server-only": "^0.0.1",
+            superjson: "^2.2.1",
+            "tailwind-merge": "^2.5.4",
+            zod: "^3.24.2",
+        } as Record<string, string>,
+        devDependencies: {
+            "@eslint/eslintrc": "^3.3.1",
+            "@tailwindcss/postcss": "^4.0.15",
+            "@types/node": "^20.14.10",
+            "@types/react": "^19.0.0",
+            "@types/react-dom": "^19.0.0",
+            eslint: "^9.23.0",
+            "eslint-config-next": "^15.2.3",
+            postcss: "^8.5.3",
+            prettier: "^3.5.3",
+            "prettier-plugin-tailwindcss": "^0.6.11",
+            prisma: "^6.6.0",
+            tailwindcss: "^4.0.15",
+            tsx: "^4.19.2",
+            typescript: "^5.8.2",
+            "typescript-eslint": "^8.27.0",
+        } as Record<string, string>,
+    };
+
+    // Add bcrypt for credentials auth
+    if (authProvider === "credentials") {
+        packageJson.dependencies["bcryptjs"] = "^2.4.3";
+        packageJson.devDependencies["@types/bcryptjs"] = "^2.4.6";
+    }
+
+    // Add database-specific drivers if needed
+    if (database === "postgresql") {
+        // Prisma handles this internally with libsql/pg driver
+    } else if (database === "mysql") {
+        // Prisma handles this internally
+    }
+
+    await fs.writeJSON(path.join(projectPath, "package.json"), packageJson, {
+        spaces: 2,
+    });
+}
