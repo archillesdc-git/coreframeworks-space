@@ -3,21 +3,21 @@ import path from "path";
 import type { ProjectOptions } from "../../create-project.js";
 
 export async function generateAuthFiles(options: ProjectOptions): Promise<void> {
-    const { projectPath, authProvider } = options;
+  const { projectPath, authProvider } = options;
 
-    await Promise.all([
-        generateAuthConfig(projectPath, authProvider),
-        generateAuthIndex(projectPath),
-        generateAuthRoute(projectPath),
-        generateAuthMiddleware(projectPath),
-        generateRoleGuard(projectPath),
-        generateAuthActions(projectPath, authProvider),
-        generateAuthTypes(projectPath),
-    ]);
+  await Promise.all([
+    generateAuthConfig(projectPath, authProvider),
+    generateAuthIndex(projectPath),
+    generateAuthRoute(projectPath),
+    generateAuthMiddleware(projectPath),
+    generateRoleGuard(projectPath),
+    generateAuthActions(projectPath, authProvider),
+    generateAuthTypes(projectPath),
+  ]);
 }
 
 async function generateAuthConfig(projectPath: string, authProvider: string): Promise<void> {
-    const content = `import { PrismaAdapter } from "@auth/prisma-adapter";
+  const content = `import { PrismaAdapter } from "@auth/prisma-adapter";
 import { type DefaultSession, type NextAuthConfig } from "next-auth";
 ${getProviderImports(authProvider)}
 
@@ -162,45 +162,45 @@ export function hasRole(userRole: UserRole, requiredRole: UserRole): boolean {
 }
 `;
 
-    await fs.writeFile(path.join(projectPath, "src", "server", "auth", "config.ts"), content);
+  await fs.writeFile(path.join(projectPath, "src", "server", "auth", "config.ts"), content);
 }
 
 function getProviderImports(authProvider: string): string {
-    switch (authProvider) {
-        case "discord":
-            return `import Discord from "next-auth/providers/discord";`;
-        case "github":
-            return `import GitHub from "next-auth/providers/github";`;
-        case "google":
-            return `import Google from "next-auth/providers/google";`;
-        case "credentials":
-            return `import Credentials from "next-auth/providers/credentials";
+  switch (authProvider) {
+    case "discord":
+      return `import Discord from "next-auth/providers/discord";`;
+    case "github":
+      return `import GitHub from "next-auth/providers/github";`;
+    case "google":
+      return `import Google from "next-auth/providers/google";`;
+    case "credentials":
+      return `import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
 import { z } from "zod";`;
-        default:
-            return `// Add your auth provider imports here`;
-    }
+    default:
+      return `// Add your auth provider imports here`;
+  }
 }
 
 function getProviderConfig(authProvider: string): string {
-    switch (authProvider) {
-        case "discord":
-            return `    Discord({
+  switch (authProvider) {
+    case "discord":
+      return `    Discord({
       clientId: process.env.AUTH_DISCORD_ID!,
       clientSecret: process.env.AUTH_DISCORD_SECRET!,
     }),`;
-        case "github":
-            return `    GitHub({
+    case "github":
+      return `    GitHub({
       clientId: process.env.AUTH_GITHUB_ID!,
       clientSecret: process.env.AUTH_GITHUB_SECRET!,
     }),`;
-        case "google":
-            return `    Google({
+    case "google":
+      return `    Google({
       clientId: process.env.AUTH_GOOGLE_ID!,
       clientSecret: process.env.AUTH_GOOGLE_SECRET!,
     }),`;
-        case "credentials":
-            return `    Credentials({
+    case "credentials":
+      return `    Credentials({
       id: "credentials",
       name: "Email & Password",
       credentials: {
@@ -245,15 +245,15 @@ function getProviderConfig(authProvider: string): string {
         };
       },
     }),`;
-        default:
-            return `    // Add your auth providers here
+    default:
+      return `    // Add your auth providers here
     // Example:
     // Discord({ clientId: "...", clientSecret: "..." }),`;
-    }
+  }
 }
 
 async function generateAuthIndex(projectPath: string): Promise<void> {
-    const content = `import NextAuth from "next-auth";
+  const content = `import NextAuth from "next-auth";
 import { cache } from "react";
 
 import { authConfig, hasRole } from "./config";
@@ -309,23 +309,23 @@ export async function requireAuth(): Promise<string> {
 export { auth, handlers, signIn, signOut, hasRole };
 `;
 
-    await fs.writeFile(path.join(projectPath, "src", "server", "auth", "index.ts"), content);
+  await fs.writeFile(path.join(projectPath, "src", "server", "auth", "index.ts"), content);
 }
 
 async function generateAuthRoute(projectPath: string): Promise<void> {
-    const content = `import { handlers } from "@/server/auth";
+  const content = `import { handlers } from "@/server/auth";
 
 export const { GET, POST } = handlers;
 `;
 
-    await fs.writeFile(
-        path.join(projectPath, "src", "app", "api", "auth", "[...nextauth]", "route.ts"),
-        content
-    );
+  await fs.writeFile(
+    path.join(projectPath, "src", "app", "api", "auth", "[...nextauth]", "route.ts"),
+    content
+  );
 }
 
 async function generateAuthMiddleware(projectPath: string): Promise<void> {
-    const content = `import { NextResponse } from "next/server";
+  const content = `import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { auth } from "@/server/auth";
 
@@ -399,11 +399,11 @@ export const config = {
 };
 `;
 
-    await fs.writeFile(path.join(projectPath, "src", "lib", "auth-middleware.ts"), content);
+  await fs.writeFile(path.join(projectPath, "src", "lib", "auth-middleware.ts"), content);
 }
 
 async function generateRoleGuard(projectPath: string): Promise<void> {
-    const content = `import { redirect } from "next/navigation";
+  const content = `import { redirect } from "next/navigation";
 import { auth, hasRole } from "@/server/auth";
 import type { UserRole } from "@/types/auth";
 
@@ -472,16 +472,16 @@ export function withRoleGuard<P extends object>(
 }
 `;
 
-    await fs.writeFile(path.join(projectPath, "src", "components", "auth", "role-guard.tsx"), content);
+  // Also create the auth components directory if it doesn't exist
+  await fs.ensureDir(path.join(projectPath, "src", "components", "auth"));
 
-    // Also create the auth components directory if it doesn't exist
-    await fs.ensureDir(path.join(projectPath, "src", "components", "auth"));
+  await fs.writeFile(path.join(projectPath, "src", "components", "auth", "role-guard.tsx"), content);
 }
 
 async function generateAuthActions(projectPath: string, authProvider: string): Promise<void> {
-    const isCredentials = authProvider === "credentials";
+  const isCredentials = authProvider === "credentials";
 
-    const content = `"use server";
+  const content = `"use server";
 
 import { signIn, signOut } from "@/server/auth";
 import { redirect } from "next/navigation";
@@ -687,11 +687,11 @@ export async function updatePassword(
 `}
 `;
 
-    await fs.writeFile(path.join(projectPath, "src", "server", "auth", "actions.ts"), content);
+  await fs.writeFile(path.join(projectPath, "src", "server", "auth", "actions.ts"), content);
 }
 
 async function generateAuthTypes(projectPath: string): Promise<void> {
-    const content = `/**
+  const content = `/**
  * Authentication Types
  */
 
@@ -768,6 +768,6 @@ export interface AuthSession {
 }
 `;
 
-    await fs.ensureDir(path.join(projectPath, "src", "types"));
-    await fs.writeFile(path.join(projectPath, "src", "types", "auth.ts"), content);
+  await fs.ensureDir(path.join(projectPath, "src", "types"));
+  await fs.writeFile(path.join(projectPath, "src", "types", "auth.ts"), content);
 }

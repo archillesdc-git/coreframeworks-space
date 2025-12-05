@@ -1531,8 +1531,8 @@ export function withRoleGuard<P extends object>(
   };
 }
 `;
-  await fs12.writeFile(path12.join(projectPath, "src", "components", "auth", "role-guard.tsx"), content);
   await fs12.ensureDir(path12.join(projectPath, "src", "components", "auth"));
+  await fs12.writeFile(path12.join(projectPath, "src", "components", "auth", "role-guard.tsx"), content);
 }
 async function generateAuthActions(projectPath, authProvider) {
   const isCredentials = authProvider === "credentials";

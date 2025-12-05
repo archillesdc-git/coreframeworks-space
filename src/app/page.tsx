@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CommandCopy } from "--/components/ui/command-copy";
 import { auth } from "--/server/auth";
 
 const FEATURES = [
@@ -150,15 +151,7 @@ export default async function Home() {
           </div>
 
           {/* Install Command */}
-          <div className="inline-flex items-center gap-4 px-6 py-4 rounded-2xl bg-[#12121a] border border-white/10">
-            <span className="text-violet-400">$</span>
-            <code className="font-mono text-lg">npx create-archillesdc-app my-app</code>
-            <button className="p-2 rounded-lg hover:bg-white/10 text-gray-400 hover:text-white transition-colors">
-              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-              </svg>
-            </button>
-          </div>
+          <CommandCopy command="npx create-archillesdc-app my-app" />
         </div>
       </section>
 
@@ -303,10 +296,10 @@ export default async function Home() {
             <p className="text-gray-400 mb-8 text-lg">
               Create your first project in under a minute
             </p>
-            <div className="inline-flex items-center gap-4 px-6 py-4 rounded-2xl bg-[#0a0a0f] border border-white/10 mb-8">
-              <span className="text-violet-400">$</span>
-              <code className="font-mono text-lg">npx create-archillesdc-app my-app</code>
-            </div>
+            <CommandCopy
+              command="npx create-archillesdc-app my-app"
+              className="mb-8 bg-[#0a0a0f]"
+            />
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
                 href="/docs/quickstart"
