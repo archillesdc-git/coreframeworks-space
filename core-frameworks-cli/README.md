@@ -8,6 +8,7 @@ Unlike other generators that ask 20 questions, `core-frameworks` asks **one**:
 ## 🔥 Features
 
 - **Universal Input**: Payroll, Hospital, POS, e-Commerce... type anything.
+- **Auto-Adapt**: Automatically detects context (e.g., "Car Rental" -> uses car images, "School System" -> uses education images).
 - **Smart Scaffolding**: Automatically creates a safe project slug (e.g., `Payroll System` -> `payroll-system`).
 - **Complete Tech Stack**: Generates a production-ready T3 Stack application.
 - **Pre-configured**:

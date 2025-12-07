@@ -46,14 +46,18 @@ async function main() {
     const slug = systemName
         .toLowerCase()
         .trim()
-        .replace(/[^\w\s-]/g, '')
-        .replace(/[\s_-]+/g, '-')
-        .replace(/^-+|-+$/g, '');
+        .replace(/[^\w\s-]/g, '') // Remove non-word chars
+        .replace(/[\s_-]+/g, '-') // Replace spaces/underscores with hyphens
+        .replace(/^-+|-+$/g, ''); // Trim start/end hyphens
 
     const finalSlug = slug || 'core-system';
 
-    // Extract keyword for images (e.g. "Car Rental System" -> "car rental")
-    const imageKeyword = systemName.replace(/system|app|management|tool|platform/gi, '').trim() || 'technology';
+    // Extract keyword for images (e.g. "Car Rental System" -> "car,rental")
+    const imageKeyword = systemName
+        .replace(/system|app|application|management|manager|tool|platform|portal|dashboard|solution|software/gi, '')
+        .trim()
+        .replace(/\s+/g, ',') || 'technology';
+
     const roleArray = roles.split(',').map(r => r.trim());
 
     const targetDir = path.join(process.cwd(), finalSlug);
