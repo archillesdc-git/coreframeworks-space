@@ -12,24 +12,49 @@ const __dirname = path.dirname(__filename);
 console.log(chalk.bold.cyan("\n✨ Core Frameworks Universal Generator ✨\n"));
 
 async function main() {
-    const { systemName } = await inquirer.prompt([
+    const answers = await inquirer.prompt([
         {
             type: 'input',
             name: 'systemName',
             message: 'What system do you want to generate?',
             validate: (input) => input.trim() !== '' ? true : 'Please enter a system name.'
+        },
+        {
+            type: 'input',
+            name: 'description',
+            message: 'Briefly describe what this system does:',
+            default: (answers) => `A complete solution for ${answers.systemName}.`
+        },
+        {
+            type: 'input',
+            name: 'roles',
+            message: 'What user roles does this system have? (comma separated)',
+            default: 'Admin, User, Staff'
+        },
+        {
+            type: 'list',
+            name: 'themeColor',
+            message: 'Select a primary theme color:',
+            choices: ['Blue', 'Purple', 'Green', 'Red', 'Orange', 'Slate'],
+            default: 'Blue'
         }
     ]);
+
+    const { systemName, description, roles, themeColor } = answers;
 
     // Convert "Payroll System" -> "payroll-system"
     const slug = systemName
         .toLowerCase()
         .trim()
-        .replace(/[^\w\s-]/g, '') // Remove non-word chars
-        .replace(/[\s_-]+/g, '-') // Replace spaces/underscores with hyphens
-        .replace(/^-+|-+$/g, ''); // Trim start/end hyphens
+        .replace(/[^\w\s-]/g, '')
+        .replace(/[\s_-]+/g, '-')
+        .replace(/^-+|-+$/g, '');
 
     const finalSlug = slug || 'core-system';
+
+    // Extract keyword for images (e.g. "Car Rental System" -> "car rental")
+    const imageKeyword = systemName.replace(/system|app|management|tool|platform/gi, '').trim() || 'technology';
+    const roleArray = roles.split(',').map(r => r.trim());
 
     const targetDir = path.join(process.cwd(), finalSlug);
     const templateDir = path.join(__dirname, 'templates', 'generic-system');
@@ -60,21 +85,50 @@ async function main() {
             await fs.writeJson(pkgPath, pkg, { spaces: 2 });
         }
 
-        // Create system.json
-        const systemJsonPath = path.join(targetDir, 'system.json');
-        await fs.writeJson(systemJsonPath, {
-            systemName: systemName,
+        // Create system.json (Metadata)
+        const systemJsonPath = path.join(targetDir, 'src', 'system.json'); // Moved to src for importing
+        // Also keep root one for CLI reference
+        await fs.writeJson(path.join(targetDir, 'system.json'), {
+            systemName,
             slug: finalSlug,
+            description,
+            roles: roleArray,
+            theme: themeColor,
+            imageKeyword,
             createdAt: new Date().toISOString(),
             generator: "core-frameworks"
         }, { spaces: 2 });
+
+        // Ensure src directory exists for system.json copy
+        await fs.ensureDir(path.join(targetDir, 'src'));
+        await fs.writeJson(path.join(targetDir, 'src', 'system.json'), {
+            systemName,
+            description,
+            roles: roleArray,
+            theme: themeColor,
+            imageKeyword
+        }, { spaces: 2 });
+
 
         // Replace placeholders in src/pages/index.tsx
         const indexPagePath = path.join(targetDir, 'src', 'pages', 'index.tsx');
         if (await fs.pathExists(indexPagePath)) {
             let content = await fs.readFile(indexPagePath, 'utf-8');
-            // Match {{SYSTEM_NAME}}, {{ SYSTEM_NAME }}, etc.
-            content = content.replace(/\{\{\s*SYSTEM_NAME\s*\}\}/g, systemName);
+
+            // Simple handlebar-style replacements
+            const replacements = {
+                'SYSTEM_NAME': systemName,
+                'DESCRIPTION': description,
+                'IMAGE_KEYWORD': encodeURIComponent(imageKeyword),
+                'THEME_COLOR': themeColor.toLowerCase(),
+            };
+
+            for (const [key, value] of Object.entries(replacements)) {
+                // Regex to match {{ KEY }} with optional whitespace
+                const regex = new RegExp(`\\{\\{\\s*${key}\\s*\\}\\}`, 'g');
+                content = content.replace(regex, value);
+            }
+
             await fs.writeFile(indexPagePath, content);
         }
 
