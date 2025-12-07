@@ -1,29 +1,68 @@
-# Create T3 App
+# ✨ Core Frameworks Ecosystem
 
-This is a [T3 Stack](https://create.t3.gg/) project bootstrapped with `create-t3-app`.
+Welcome to the **Core Frameworks** monorepo, a collection of powerful tools and CLI generators designed to accelerate the development of full-stack web applications and robust enterprise systems using the **T3 Stack** (Next.js, Tailwind, tRPC, Prisma, NextAuth).
 
-## What's next? How do I make an app with this?
+## 🚀 Available Tools
 
-We try to keep this project as simple as possible, so you can start with just the scaffolding we set up for you, and add additional things later when they become necessary.
+### 1. Core Frameworks Universal Generator (`core-frameworks`)
 
-If you are not familiar with the different technologies used in this project, please refer to the respective docs. If you still are in the wind, please join our [Discord](https://t3.gg/discord) and ask for help.
+A **Universal System Generator** that adapts to *any* input. No choices, just results. You name it, we build it.
 
-- [Next.js](https://nextjs.org)
-- [NextAuth.js](https://next-auth.js.org)
-- [Prisma](https://prisma.io)
-- [Drizzle](https://orm.drizzle.team)
-- [Tailwind CSS](https://tailwindcss.com)
-- [tRPC](https://trpc.io)
+**Features:**
+- **Free Input**: Type ANY system name (e.g., "Payroll System", "Hospital Management", "POS").
+- **Smart Slugification**: Automatically converts names to safe folder paths (e.g., `Payroll System` → `payroll-system`).
+- **Dynamic Scaffolding**: Generates a generic T3-based system with your specific system name embedded.
+- **Instant Setup**: Comes with Auth, Database (SQLite), UI Components, and API structure pre-wired.
 
-## Learn More
+**Usage:**
+```bash
+npx core-frameworks
+```
+*Follow the single prompt to generate your system.*
 
-To learn more about the [T3 Stack](https://create.t3.gg/), take a look at the following resources:
+---
 
-- [Documentation](https://create.t3.gg/)
-- [Learn the T3 Stack](https://create.t3.gg/en/faq#what-learning-resources-are-currently-available) — Check out these awesome tutorials
+### 2. Create ArchillesDC App (`create-archillesdc-app`)
 
-You can check out the [create-t3-app GitHub repository](https://github.com/t3-oss/create-t3-app) — your feedback and contributions are welcome!
+A highly structured, template-based generator for specific use cases.
 
-## How do I deploy this?
+**Features:**
+- **Selection Choices**: Choose your specific template (Full System, Admin Dashboard, Barebones).
+- **Component Picker**: Select which UI components to include.
+- **Tech Flexibility**: Choices for Database and Auth providers.
+- **Production Ready**: Optimized for structured enterprise deployment.
 
-Follow our deployment guides for [Vercel](https://create.t3.gg/en/deployment/vercel), [Netlify](https://create.t3.gg/en/deployment/netlify) and [Docker](https://create.t3.gg/en/deployment/docker) for more information.
+**Usage:**
+```bash
+npx create-archillesdc-app
+```
+
+---
+
+## 🛠️ Tech Stack
+
+Both tools leverage the modern **T3 Stack**:
+- **Next.js**: The React Framework for the Web
+- **TypeScript**: Strictly typed for reliability
+- **Tailwind CSS**: Rapid UI development
+- **Prisma**: Next-generation ORM
+- **tRPC**: End-to-end typesafe APIs
+- **NextAuth.js**: Authentication for Next.js
+
+## 📦 Project Structure
+
+```
+coreframeworks-space/
+├── cli/                    # source for create-archillesdc-app
+├── core-frameworks-cli/    # source for Universal Generator (core-frameworks)
+├── docs/                   # Documentation portal
+└── ...
+```
+
+## 🤝 Contributing
+
+Contributions are welcome! Please read `CONTRIBUTING.md` for details on our code of conduct, and the process for submitting pull requests.
+
+## 📄 License
+
+MIT © ArchillesDC
