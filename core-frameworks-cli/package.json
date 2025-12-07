@@ -1,0 +1,25 @@
+{
+    "name": "core-frameworks",
+    "version": "1.0.0",
+    "description": "Universal System Generator",
+    "type": "module",
+    "bin": {
+        "core-frameworks": "./index.js"
+    },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "cli",
+        "generator",
+        "system",
+        "core-frameworks"
+    ],
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "chalk": "^5.3.0",
+        "fs-extra": "^11.2.0",
+        "inquirer": "^9.2.14"
+    }
+}
