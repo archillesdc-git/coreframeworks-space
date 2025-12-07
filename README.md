@@ -14,7 +14,28 @@ A **Universal System Generator** that adapts to *any* input. No choices, just re
 - **Dynamic Scaffolding**: Generates a generic T3-based system with your specific system name embedded.
 - **Instant Setup**: Comes with Auth, Database (SQLite), UI Components, and API structure pre-wired.
 
-**Usage:**
+**Prerequisites:**
+- **Node.js**: v18.17.0 or higher (Required)
+- **Git**: To clone the repository
+
+**How to use (Local Development):**
+Since this package is not yet published to the public npm registry, you must run it locally:
+
+1. **Clone & Setup**:
+   ```bash
+   git clone https://github.com/archillesdc-git/coreframeworks-space.git
+   cd coreframeworks-space/core-frameworks-cli
+   npm install
+   npm link
+   ```
+2. **Run:**
+   ```bash
+   core-frameworks
+   # or
+   npx core-frameworks
+   ```
+
+**Usage (Once Published):**
 ```bash
 npx core-frameworks
 ```

@@ -73,7 +73,8 @@ async function main() {
         const indexPagePath = path.join(targetDir, 'src', 'pages', 'index.tsx');
         if (await fs.pathExists(indexPagePath)) {
             let content = await fs.readFile(indexPagePath, 'utf-8');
-            content = content.replace(/{{SYSTEM_NAME}}/g, systemName);
+            // Match {{SYSTEM_NAME}}, {{ SYSTEM_NAME }}, etc.
+            content = content.replace(/\{\{\s*SYSTEM_NAME\s*\}\}/g, systemName);
             await fs.writeFile(indexPagePath, content);
         }
 
